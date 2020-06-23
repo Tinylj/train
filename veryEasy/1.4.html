@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app2">
+    <input t-model="text1"/>
+    {{text1}}
+    <input t-model="text1"/>
+    <input t-model="text2"/>
+</div>
+</body>
+<script src="js/tiny.js"></script>
+<script>
+    var ty2 = new tiny({
+        ele:"app2",
+        data:{
+            text1:"第一个绑定值",
+            text2:"第二个绑定值",
+        }
+    });
+</script>
+</html>
