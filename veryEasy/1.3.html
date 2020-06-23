@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>渲染方式</title>
+    <style>
+        li {
+            height: 25px;
+            line-height: 25px;
+            font-size: 14px;
+            width: 200px;
+            margin-bottom: 2px;
+            background-color: aliceblue;
+        }
+    </style>
+</head>
+<body>
+<div>重绘和重排</div>
+<img src="img/chonghui.png">
+
+<div>
+    <button onclick="appendNode()">执行添加</button>
+    <button onclick="appendNode2()">执行添加2</button>
+</div>
+
+<ul id="mydiv">
+</ul>
+
+</body>
+<script>
+    //用google来测试一下。
+    function appendNode(){
+       console.time();
+       for(let i=0;i<1000;i++) {
+           let fkk = document.createTextNode("节点" + i);
+           let li = document.createElement('li');
+           li.appendChild(fkk);
+           document.getElementById("mydiv").appendChild(li);
+       }
+       let mn = document.getElementById("mydiv").childNodes;
+       for(let i=0;i<mn.length;i++) {
+           let copy_i = mn[i];
+           if(mn[i].style) {
+               mn[i].style.marginLeft = '20px';
+           }
+       }
+       for(let i=0;i<mn.length;i++) {
+            let copy_i = mn[i];
+            if(mn[i].style) {
+                mn[i].style.marginTop = '1px';
+            }
+        }
+       console.timeEnd();
+    }
+    //
+    function appendNode2(){
+        let fragment = document.createDocumentFragment();
+        console.time();
+        for(let i=0;i<1000;i++) {
+            let fkk = document.createTextNode("节点" + i);
+            let li = document.createElement('li');
+            li.appendChild(fkk);
+            fragment.appendChild(li);
+        }
+        let mn = fragment.childNodes;
+        for(let i=0;i<mn.length;i++) {
+            let copy_i = mn[i];
+            if(mn[i].style) {
+                mn[i].style.marginLeft = '20px';
+                mn[i].style.marginTop = '1px';
+            }
+        }
+        document.getElementById("mydiv").appendChild(fragment);
+        console.timeEnd();
+    }
+
+
+</script>
+</html>

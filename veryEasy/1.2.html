@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>变量类型</div>
+<script>
+    //基础类型
+    //null
+    //undefined
+    //boolean
+    //number
+    //string
+    //symbol
+
+    //对象
+    //Object
+    let variable_a = "54";
+    let variable_b = {
+        m:42,
+        n:"天津"
+    }
+    let variable_c = variable_a;
+    variable_c = "102";
+    let variable_d = variable_b;
+    variable_d.n = "北京";
+    console.log(variable_a);
+    console.log(variable_b.n);
+    variable_b.test= 9;
+    console.log(variable_b.test);
+    variable_a.test =7;
+    console.log(variable_a.test);
+
+    //问题1：如何实现一个深拷贝？复制一个与 variable_b一样的对象，但不让新对象与variable_b互相影响？
+    //问题2：variable_a.substr(0,1);为什么不报错?
+
+
+</script>
+</body>
+</html>
