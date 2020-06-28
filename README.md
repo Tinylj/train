@@ -34,14 +34,16 @@
 
 ## 第五章 vue
 
-## 第六章 nodejs入门
+## 第六章 nodejs入门 express
 
 ## 第七章 nodejs进阶 koa/egg
 
 ## 第八章 webpack
 
-## 第九章 微信小程序/微信公众号 开发
+## 第九章 微信小程序/微信公众号
 
 ## 第十章 H5-app/weex
 
 ## 第十一章 angular
+
+## 第十二章 typescript

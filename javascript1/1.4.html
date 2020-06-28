@@ -5,7 +5,296 @@
     <title>Title</title>
 </head>
 <body>
-闭包参考文档
-https://blog.csdn.net/weixin_43586120/article/details/89456183
+<p>
+    1、概念
+</p>
+<p>
+    闭包函数：声明在一个函数中的函数，叫做闭包函数。
+</p>
+<p>
+    闭包：内部函数总是可以访问其所在的外部函数中声明的参数和变量，即使在其外部函数被返回（寿命终结）了之后。
+</p>
+<p>
+    2、特点
+</p>
+<p>
+    &nbsp; 让外部访问函数内部变量成为可能；
+</p>
+<p>
+    &nbsp; 局部变量会常驻在内存中；
+</p>
+<p>
+    &nbsp; 可以避免使用全局变量，防止全局变量污染；
+</p>
+<p>
+    &nbsp; 会造成内存泄漏（有一块内存空间被长期占用，而不被释放）
+</p>
+<p>
+    3、闭包的创建：­­­
+</p>
+<p>
+    闭包就是可以创建一个独立的环境，每个闭包里面的环境都是独立的，互不干扰。闭包会发生内存泄漏，每次外部函数执行的时 候，外部函数的引用地址不同，都会重新创建一个新的地址。但凡是当前活动对象中有被内部子集引用的数据，那么这个时候，这个数据不删除，保留一根指针给内部活动对象。
+</p>
+<p>
+    闭包内存泄漏为： key = value，key 被删除了 value 常驻内存中; 局部变量闭包升级版（中间引用的变量） =&gt; 自由变量；
+</p>
+
+
 </body>
+<!--例子1-->
+<script>
+    //例子1
+    function funA(){
+        var a = 10;  // funA的活动对象之中;
+        return function(){   //匿名函数的活动对象;
+            alert(a);
+        }
+    }
+    var b = funA();
+    b(); //输出什么？
+
+</script>
+
+<!--例子2-->
+<script>
+    function outerFn(){
+        var i = 0;
+        function innerFn(){
+            i++;
+            console.log(i);
+        }
+        return innerFn;
+    }
+    var inner = outerFn();  //每次外部函数执行的时候,都会开辟一块内存空间,外部函数的地址不同，都会重新创建一个新的地址
+    inner();
+    inner();
+    inner();
+    var inner2 = outerFn();
+    inner2();
+    inner2();
+    inner2();
+</script>
+
+<!--例子3-->
+<script>
+    var i = 0;
+    function outerFn(){
+        function innnerFn(){
+            i++;
+            console.log(i);
+        }
+        return innnerFn;
+    }
+    var inner1 = outerFn();
+    var inner2 = outerFn();
+    inner1();
+    inner2();
+    inner1();
+    inner2();
+</script>
+
+<!--例子4-->
+<script>
+    //例子4
+    function fn(){
+        var a = 3;
+        return function(){
+            return  ++a;
+        }
+    }
+    alert(fn()());
+    alert(fn()());
+</script>
+
+<!--例子5-->
+<script>
+    function outerFn(){
+        var i = 0;
+        function innnerFn(){
+            i++;
+            console.log(i);
+        }
+        return innnerFn;
+    }
+    var inner1 = outerFn();
+    var inner2 = outerFn();
+    inner1();
+    inner2();
+    inner1();
+    inner2();
+</script>
+
+<!--例子6-->
+<script>
+    (function() {
+        var m = 0;
+        function getM() { return m; }
+        function seta(val) { m = val; }
+        window.g = getM;
+        window.f = seta;
+    })();
+    f(100);
+    console.info(g());
+</script>
+
+<!--例子7-->
+<script>
+    function a() {
+        var i = 0;
+        function b() { alert(++i); }
+        return b;
+    }
+    var c = a();
+    c();
+    c();
+</script>
+
+<!--例子8-->
+<script>
+    function f() {
+        var count = 0;
+        return  function() {
+            count++;
+            console.info(count);
+        }
+    }
+    var t1 = f();
+    t1();
+    t1();
+    t1();
+</script>
+
+<!--例子9-->
+<script>
+    var add = function(x) {
+        var sum = 1;
+        var tmp = function(x) {
+            sum = sum + x;
+            return tmp;
+        }
+        tmp.toString = function() {
+            return sum;
+        }
+        return tmp;
+    }
+    alert(add(1)(2)(3));
+</script>
+
+<!--例子10-->
+<script>
+    var lis = document.getElementsByTagName("li");
+    for(var i=0;i<lis.length;i++){
+        (function(i){
+            lis[i].onclick = function(){
+                console.log(i);
+            };
+        })(i);       //事件处理函数中闭包的写法
+    }
+</script>
+
+<!--例子11 -->
+<script>
+    function m1(){
+        var x = 1;
+        return function(){
+            console.log(++x);
+        }
+    }
+    m1()();
+    m1()();
+    m1()();
+    var m2 = m1();
+    m2();
+    m2();
+    m2();
+</script>
+
+<!--例子12 -->
+<script>
+    var fn=(function(){
+        var  i=10;
+        function  fn(){
+            console.log(++i);
+        }
+        return   fn;
+    })()
+    fn();
+    fn();
+</script>
+
+<!-- 例子13 -->
+<script>
+    function love1(){
+        var num = 223;
+        var me1 = function() {
+            console.log(num);
+        }
+        num++;
+        return me1;
+    }
+    var loveme1 = love1();
+    loveme1();
+</script>
+
+<!-- 例子14 -->
+<script>
+    function fun(n,o) {
+        console.log(o);
+        return {
+            fun:function(m) {
+                return fun(m,n);
+            }
+        };
+    }
+    var a = fun(0);
+    a.fun(1);
+    a.fun(2);
+    a.fun(3);
+    var b = fun(0).fun(1).fun(2).fun(3);
+    var c = fun(0).fun(1);
+    c.fun(2);
+    c.fun(3);
+</script>
+
+<!-- 例子15 -->
+<script>
+    function fn(){
+        var arr = [];
+        for(var i = 0;i < 5;i ++){
+            arr[i] = function(){
+                return i;
+            }
+        }
+        return arr;
+    }
+    var list = fn();
+    for(var i = 0,len = list.length;i < len ; i ++){
+        console.log(list[i]());
+    }
+</script>
+
+<!-- 例子16 -->
+<script>
+    function fn(){
+        var arr = [];
+        for(var i = 0;i < 5;i ++){
+            arr[i] = (function(i){
+                return function (){
+                    return i;
+                };
+            })(i);
+        }
+        return arr;
+    }
+    var list = fn();
+    for(var i = 0,len = list.length;i < len ; i ++){
+        console.log(list[i]());
+    }
+
+    // 参考文档：https://blog.csdn.net/weixin_43586120/article/details/89456183
+</script>
+
+
+
+
 </html>
